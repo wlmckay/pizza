@@ -45,7 +45,15 @@ $fieldName = "";  if (isset($_POST["fieldName"])) $fieldName = $_POST["fieldName
 	</form>
 <?php
 $sql = "SELECT id, company, pizzaName, `type`, `size`, price FROM pizzadata ";
-if (!empty($fieldName)) $sql .= "WHERE " . $fieldName . " LIKE '%" . $searchText . "%' ";
+if (!empty($fieldName)) {
+	$sql .= "WHERE " . $fieldName;
+	
+	if ($fieldName == "price") {
+		$sql .= " <= " . $searchText . " ";
+	} else {
+		$sql .= " LIKE '%" . $searchText . "%' ";
+	}
+}
 $sql .= "ORDER BY size, pizzaName";
 $result = $conn->query($sql);
 
