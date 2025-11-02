@@ -32,11 +32,11 @@ $fieldName = "";  if (isset($_POST["fieldName"])) $fieldName = $_POST["fieldName
 		<tr>
 			<td><input type=textbox size=30 id=searchText name=searchText value="<?=$searchText?>"></td>
 			<td><select id=fieldName name=fieldName>
-				<option value=company>Company</option>
-				<option value=pizzaName>Pizza Name</option>
-				<option value=type>Type of Pizza</option>
-				<option value=size>Size of Pizza</option>
-				<option value=price>Price</option>
+				<option <?=($fieldName == "company") ? "SELECTED" : ""?> value=company>Company</option>
+				<option <?=($fieldName == "pizzaName") ? "SELECTED" : ""?> value=pizzaName>Pizza Name</option>
+				<option <?=($fieldName == "type") ? "SELECTED" : ""?> value=type>Type of Pizza</option>
+				<option <?=($fieldName == "size") ? "SELECTED" : ""?> value=size>Size of Pizza</option>
+				<option <?=($fieldName == "price") ? "SELECTED" : ""?> value=price>Price</option>
 			</select>
 			</td>
 			<td><input type=submit value="Search"></td>
