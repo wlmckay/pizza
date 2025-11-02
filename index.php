@@ -16,6 +16,34 @@ $fieldName = "";  if (isset($_POST["fieldName"])) $fieldName = $_POST["fieldName
 ?>
 <html>
 <head>
+<script>
+  let sortDirection = [true, true]; // true = ascending
+
+  function sortTable(columnIndex) {
+    const table = document.getElementById("results");
+    const rows = Array.from(table.rows).slice(1);
+    const ascending = sortDirection[columnIndex];
+
+    rows.sort((a, b) => {
+      const valA = a.cells[columnIndex].innerText;
+      const valB = b.cells[columnIndex].innerText;
+      return ascending ? valA.localeCompare(valB, undefined, {numeric: true}) : valB.localeCompare(valA, undefined, {numeric: true});
+    });
+
+    rows.forEach(row => table.tBodies[0].appendChild(row));
+    sortDirection[columnIndex] = !ascending;
+
+    // Update arrow indicators
+    const headers = table.querySelectorAll("th");
+    headers.forEach((th, i) => {
+      th.classList.remove("asc", "desc");
+      if (i === columnIndex) {
+        th.classList.add(ascending ? "asc" : "desc");
+      }
+    });
+  }
+
+</script>
 <title>home</title>
 <link rel="stylesheet" type="text/css" href="pizzaStyle.css">
 </Head>
@@ -27,7 +55,7 @@ $fieldName = "";  if (isset($_POST["fieldName"])) $fieldName = $_POST["fieldName
 			<li><a href ="insert.php">Insert</a></li>
 		</ul>
 	</nav>
-	<form method="POST" action="index.php">
+	<form method="POST" action="index.php" id=searchForm name=searchForm>
 	<table>
 		<tr>
 			<td><input type=textbox size=30 id=searchText name=searchText value="<?=$searchText?>"></td>
@@ -58,12 +86,17 @@ $sql .= "ORDER BY size, pizzaName";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-?><table border=1 cellspacing=0 cellpadding=5>
-<tr><th>ID</th><th>Company</th><th>Pizza Name</th><th>Type of Pizza</th><th>Size of Pizza</th><th>Price</th></tr><?php	
+?><table cellspacing=0 cellpadding=5 id="results">
+<tr><th>ID</th>
+<th onclick="sortTable(1)">Company</th>
+<th onclick="sortTable(2)">Pizza Name</th>
+<th onclick="sortTable(3)">Type of Pizza</th>
+<th onclick="sortTable(4)">Size of Pizza</th>
+<th onclick="sortTable(5)" style="width:75px;">Price</th></tr><?php	
 	
   // output data of each row
   while($row = $result->fetch_assoc()) {
-    echo "<tr><td>" . $row["id"]. "</td><td>" . $row["company"]. "</td><td>" . $row["pizzaName"]. "</td><td>" . $row["type"]. "</td><td>" . $row["size"]. "</td><td>" . $row["price"]. "</td></tr>";
+    echo "<tr><td>" . $row["id"]. "</td><td>" . $row["company"]. "</td><td>" . $row["pizzaName"]. "</td><td>" . $row["type"]. "</td><td>" . $row["size"]. "</td><td style=\"text-align:right;\">" . $row["price"]. "</td></tr>";
   }
 ?></table><?php
 } else {
