@@ -77,7 +77,7 @@ if (!empty($fieldName)) {
 	$sql .= "WHERE " . $fieldName;
 	
 	if ($fieldName == "price") {
-		$sql .= " <= " . $searchText . " ";
+		$sql .= " <= " . (float) $searchText . " ";
 	} else {
 		$sql .= " LIKE '%" . $searchText . "%' ";
 	}
