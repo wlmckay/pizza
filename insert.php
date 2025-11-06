@@ -14,6 +14,10 @@ if (empty($company) || empty($pizzaName) || empty($pizzaType) || empty($pizzaSiz
 ?>
 <body>
   <?php if ($valid) {
+    $company = $conn->real_escape_string($company);
+    $pizzaName = $conn->real_escape_string($pizzaName);
+    $pizzaType = $conn->real_escape_string($pizzaType);
+    $pizzaSize = $conn->real_escape_string($pizzaSize);
 
     $sql = "INSERT INTO `pizzadata` (`Company`, `PizzaName`, `Type`, `Size`, `Price`) VALUES ('" . 
       $company . "', '" . $pizzaName . "', '" . $pizzaType . "', '" . $pizzaSize . "', '" . $price . "');";
