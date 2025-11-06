@@ -96,7 +96,12 @@ if ($result->num_rows > 0) {
 	
   // output data of each row
   while($row = $result->fetch_assoc()) {
-    echo "<tr><td>" . $row["id"]. "</td><td>" . $row["company"]. "</td><td>" . $row["pizzaName"]. "</td><td>" . $row["type"]. "</td><td>" . $row["size"]. "</td><td style=\"text-align:right;\">" . $row["price"]. "</td></tr>";
+    echo "<tr><td>" . $row["id"]. "</td><td>" . 
+		$row["company"]. "</td><td>" . 
+		$row["pizzaName"]. "</td><td>" . 
+		$row["type"]. "</td><td>" . 
+		$row["size"]. "</td><td style=\"text-align:right;\">&pound;" . 
+		number_format($row["price"], 2) . "</td></tr>";
   }
 ?></table><?php
 } else {
